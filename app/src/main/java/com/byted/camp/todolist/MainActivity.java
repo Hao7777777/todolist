@@ -33,7 +33,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_ADD = 1002;
-
+    private static final int REQUEST_CODE_SORT = 1003;
     private RecyclerView recyclerView;
     private NoteListAdapter notesAdapter;
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             public void updateNote(Note note) {
                 MainActivity.this.updateNode(note);
             }
-        });
+        },this);
         recyclerView.setAdapter(notesAdapter);
 
         notesAdapter.refresh(loadNotesFromDatabase());
@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+
+        TodoDbHelper.getInstance(this).close();
         super.onDestroy();
     }
 
@@ -91,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_settings:
-                startActivity(new Intent(this, SettingActivity.class));
+//                startActivity(new Intent(this, SettingActivity.class));
+                startActivityForResult(new Intent(this, SettingActivity.class), REQUEST_CODE_SORT);
                 return true;
             case R.id.action_debug:
                 startActivity(new Intent(this, DebugActivity.class));
@@ -109,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_ADD
+        if ((requestCode == REQUEST_CODE_ADD || requestCode == REQUEST_CODE_SORT)
                 && resultCode == Activity.RESULT_OK) {
             notesAdapter.refresh(loadNotesFromDatabase());
         }
@@ -145,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             noteList.add(note);
         }
         cursor.close();
-        return null;
+        return noteList;
     }
 
     private void deleteNote(Note note) {

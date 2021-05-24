@@ -22,7 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DebugActivity extends AppCompatActivity {
+public class
+DebugActivity extends AppCompatActivity {
 
     private static int REQUEST_CODE_STORAGE_PERMISSION = 1001;
 

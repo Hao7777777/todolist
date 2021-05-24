@@ -32,7 +32,7 @@ public class TodoDbHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public static TodoDbHelper getInstance(Context context) {
+    public static synchronized TodoDbHelper getInstance(Context context) {
         if (todoDbHelper == null) {
             todoDbHelper = new TodoDbHelper(context);
         }

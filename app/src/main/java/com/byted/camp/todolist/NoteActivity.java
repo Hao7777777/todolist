@@ -24,6 +24,7 @@ public class NoteActivity extends AppCompatActivity {
     private Button addBtn;
     private Spinner spinner;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,7 @@ public class NoteActivity extends AppCompatActivity {
         setTitle(R.string.take_a_note);
 
         editText = findViewById(R.id.edit_text);
+        spinner = findViewById(R.id.spinner);
         editText.setFocusable(true);
         editText.requestFocus();
         InputMethodManager inputManager = (InputMethodManager)
@@ -54,14 +56,16 @@ public class NoteActivity extends AppCompatActivity {
                 Object tmp = spinner.getSelectedItem();
                 if (tmp != null) {
                     switch (tmp.toString()) {
-                        case "High":
+                        case "Level2":
                             priority = 2;
                             break;
-                        case "Medium":
+                        case "Level1":
                             priority = 1;
                             break;
-                        default:
+                        case "Level0":
                             priority = 0;
+                            break;
+                        default:
                             break;
                     }
                 }

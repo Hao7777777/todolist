@@ -1,5 +1,6 @@
 package com.byted.camp.todolist.ui;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -30,16 +31,19 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     private final List<Note> notes = new ArrayList<>();
 
     private SharedPreferences mSharedPreferences;
+    private Context context;
 
-    public NoteListAdapter(NoteOperator operator) {
+    public NoteListAdapter(NoteOperator operator, Context context_) {
         this.operator = operator;
+        context = context_;
+        mSharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+//    @RequiresApi(api = Build.VERSION_CODES.N)
     public void refresh(List<Note> newNotes) {
         notes.clear();
         if (newNotes != null) {
-            notes.addAll(newNotes);
+//            notes.addAll(newNotes);
 
             //todo 根据${com.byted.camp.todolist.operation.activity.SettingActivity} 中设置的sp控制是否将已完成的完成排到最后，默认不排序
 
@@ -47,11 +51,11 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteViewHolder> {
             if (sortByState) {
                 newNotes = newNotes.stream()
                         .sorted(Comparator.comparing(Note::getState)
-                                .thenComparing(Comparator.comparing(Note::getPriority).reversed()))
+                                .thenComparing(Comparator.comparing(Note::getPriority)))
                         .collect(Collectors.toList());
             } else {
                 newNotes = newNotes.stream()
-                        .sorted(Comparator.comparing(Note::getPriority).reversed())
+                        .sorted(Comparator.comparing(Note::getPriority))
                         .collect(Collectors.toList());
             }
             notes.addAll(newNotes);

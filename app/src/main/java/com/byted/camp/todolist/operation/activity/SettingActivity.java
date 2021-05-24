@@ -27,10 +27,15 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
         //todo 从sp读出数据更新isOpen字段
-        boolean isOpen = false;
+
         mSharedPreferences = getSharedPreferences(getApplication().getPackageName(), Context.MODE_PRIVATE);
+        boolean isOpen = mSharedPreferences.getBoolean(KEY_IS_NEED_SORT, false);
+
 
         commentSwitch = findViewById(R.id.switch_comment);
+        commentSwitch.setChecked(isOpen);
+
+
         commentSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
